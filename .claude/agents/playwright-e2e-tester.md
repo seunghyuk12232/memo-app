@@ -43,6 +43,13 @@ color: purple
 - 실패 시 스크린샷 캡처하여 디버깅 지원
 - UI 변화에 강한 견고한 테스트 작성
 
+파일 저장 경로 규칙
+
+- 테스트 코드는 모두 /tests/e2e/ 경로에 저장
+  - 예시: /tests/e2e/login.spec.ts, /tests/e2e/cart.spec.ts
+- 페이지 오브젝트(POM) 사용 시 /tests/e2e/page-objects/ 하위에 저장
+  - 예시: /tests/e2e/page-objects/LoginPage.ts
+
 품질 보증:
 
 - Validate that tests actually verify the intended functionality
