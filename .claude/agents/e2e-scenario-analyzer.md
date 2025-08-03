@@ -54,6 +54,21 @@ color: blue
 - 기능 모듈 또는 사용자 흐름별로 시나리오를 그룹화
 - 테스트 커버리지에 대한 요약 보고 제공
 
+**시나리오 문서 저장 경로 규칙**:
+모든 테스트 시나리오 문서는 다음 경로에 마크다운 파일로 저장:
+
+```
+/tests/e2e/scenarios/<기능_이름>.md
+```
+
+예시:
+
+- /tests/e2e/scenarios/login.md
+- /tests/e2e/scenarios/signup.md
+- /tests/e2e/scenarios/checkout.md
+
+시나리오는 기능 또는 사용자 플로우 단위로 분리하여 저장
+
 **핵심 원칙**:
 
 - 기술 구현보다 사용자 중심의 시나리오에 집중
