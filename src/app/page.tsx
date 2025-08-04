@@ -23,15 +23,20 @@ export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingMemo, setEditingMemo] = useState<Memo | null>(null)
 
-  const handleCreateMemo = (formData: MemoFormData) => {
-    createMemo(formData)
-    setIsFormOpen(false)
+  const handleCreateMemo = async (formData: MemoFormData) => {
+    const result = await createMemo(formData)
+    if (result) {
+      setIsFormOpen(false)
+    }
   }
 
-  const handleUpdateMemo = (formData: MemoFormData) => {
+  const handleUpdateMemo = async (formData: MemoFormData) => {
     if (editingMemo) {
-      updateMemo(editingMemo.id, formData)
-      setEditingMemo(null)
+      const success = await updateMemo(editingMemo.id, formData)
+      if (success) {
+        setEditingMemo(null)
+        setIsFormOpen(false)
+      }
     }
   }
 
@@ -92,7 +97,7 @@ export default function Home() {
           onSearchChange={searchMemos}
           onCategoryChange={filterByCategory}
           onEditMemo={handleEditMemo}
-          onDeleteMemo={deleteMemo}
+          onDeleteMemo={async (id) => await deleteMemo(id)}
           stats={stats}
         />
       </main>
