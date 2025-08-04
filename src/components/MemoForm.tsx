@@ -1,12 +1,25 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import {
   Memo,
   MemoFormData,
   MEMO_CATEGORIES,
   DEFAULT_CATEGORIES,
 } from '@/types/memo'
+
+// MDEditor를 동적으로 import하여 SSR 문제 방지
+const MDEditor = dynamic(
+  () => import('@uiw/react-md-editor'),
+  { ssr: false }
+)
+
+// commands도 별도로 import
+const commands = dynamic(
+  () => import('@uiw/react-md-editor').then((mod) => ({ default: mod.commands })),
+  { ssr: false }
+)
 
 interface MemoFormProps {
   isOpen: boolean
@@ -168,28 +181,34 @@ export default function MemoForm({
               </select>
             </div>
 
-            {/* 내용 */}
+            {/* 내용 - 마크다운 편집기 */}
             <div>
-              <label
-                htmlFor="content"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                내용 *
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                내용 * (마크다운 지원)
               </label>
-              <textarea
-                id="content"
-                value={formData.content}
-                onChange={e =>
-                  setFormData(prev => ({
-                    ...prev,
-                    content: e.target.value,
-                  }))
-                }
-                className="placeholder-gray-400 text-gray-400 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
-                placeholder="메모 내용을 입력하세요"
-                rows={8}
-                required
-              />
+              <div className="border border-gray-300 rounded-lg overflow-hidden">
+                <MDEditor
+                  value={formData.content}
+                  onChange={(value) =>
+                    setFormData(prev => ({
+                      ...prev,
+                      content: value || '',
+                    }))
+                  }
+                  preview="edit"
+                  data-color-mode="light"
+                  height={300}
+                  visibleDragBar={false}
+                  textareaProps={{
+                    placeholder: '마크다운 형식으로 메모 내용을 입력하세요...\n\n예시:\n# 제목\n## 부제목\n**굵은글씨**\n*기울임*\n- 목록\n```\n코드 블록\n```',
+                    style: { 
+                      fontSize: 14, 
+                      fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", monospace',
+                      lineHeight: 1.5 
+                    }
+                  }}
+                />
+              </div>
             </div>
 
             {/* 태그 */}
