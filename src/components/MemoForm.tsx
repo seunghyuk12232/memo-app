@@ -15,11 +15,7 @@ const MDEditor = dynamic(
   { ssr: false }
 )
 
-// commands도 별도로 import
-const commands = dynamic(
-  () => import('@uiw/react-md-editor').then((mod) => ({ default: mod.commands })),
-  { ssr: false }
-)
+
 
 interface MemoFormProps {
   isOpen: boolean
@@ -198,7 +194,7 @@ export default function MemoForm({
                   preview="edit"
                   data-color-mode="light"
                   height={300}
-                  visibleDragBar={false}
+                  visibleDragbar={false}
                   textareaProps={{
                     placeholder: '마크다운 형식으로 메모 내용을 입력하세요...\n\n예시:\n# 제목\n## 부제목\n**굵은글씨**\n*기울임*\n- 목록\n```\n코드 블록\n```',
                     style: { 
